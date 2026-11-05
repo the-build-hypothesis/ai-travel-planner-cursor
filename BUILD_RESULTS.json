@@ -1,0 +1,109 @@
+{
+  "schemaVersion": "1",
+  "specVersion": "1.7",
+  "project": "ai-travel-planner-cursor",
+  "generatedAt": "2026-11-05T19:20:00.000Z",
+  "execution": {
+    "startedAt": "2026-11-05T19:01:00.000Z",
+    "endedAt": null,
+    "elapsedSeconds": null,
+    "eightHourLimitSeconds": 28800,
+    "completionReason": "implementation_and_production_smoke_complete_github_builds_pending",
+    "humanInterventions": []
+  },
+  "repository": {
+    "branch": "main",
+    "commitSha": null
+  },
+  "deployment": {
+    "status": "deployed_via_wrangler_verified",
+    "publicUrl": "https://ai-travel-planner-v1-cursor.thebuildhypothesis.com",
+    "githubBuildsVerification": "pending_push",
+    "deployedCommitSha": null,
+    "workerName": "ai-travel-planner-cursor",
+    "wranglerVersionIdObserved": "26b50c25-c52f-4f8e-8f2b-8bb8702806ad"
+  },
+  "requirements": [
+    {"ref": "2.1", "description": "Conversational AI", "status": "Verified", "evidence": ["prod chat Tokyo itinerary"]},
+    {"ref": "2.2", "description": "Trip management", "status": "Verified", "evidence": ["prod create/list/get"]},
+    {"ref": "2.3", "description": "Itinerary generation", "status": "Verified", "evidence": ["5-day structured itinerary persisted"]},
+    {"ref": "2.4", "description": "Itinerary editing", "status": "Partial", "evidence": ["UI remove; chat modify sometimes skips JSON"]},
+    {"ref": "2.5", "description": "Destination research", "status": "Implemented but Unverified", "evidence": ["places.ts + usage records"]},
+    {"ref": "2.6", "description": "Interactive maps", "status": "Verified", "evidence": ["TripMap Leaflet UI"]},
+    {"ref": "2.7", "description": "UI/UX polish", "status": "Implemented but Unverified", "evidence": ["SPA styles shipped"]},
+    {"ref": "3.1", "description": "Guest access", "status": "Verified", "evidence": ["atp_guest cookie + D1 guests"]},
+    {"ref": "3.2", "description": "Registration", "status": "Verified", "evidence": ["prod 201 register"]},
+    {"ref": "3.3", "description": "Login sessions", "status": "Verified", "evidence": ["HTTP-only cookies"]},
+    {"ref": "3.4", "description": "Registered user features", "status": "Verified", "evidence": ["trips after auth"]},
+    {"ref": "3.5", "description": "Guest migration", "status": "Verified", "evidence": ["ownerType user after register"]},
+    {"ref": "4", "description": "Email verification and password recovery", "status": "Partial", "evidence": ["API+binding; inbox unconfirmed"]},
+    {"ref": "5", "description": "Admin dashboard auth/bootstrap", "status": "Verified", "evidence": ["must_change_password gate"]},
+    {"ref": "5.4", "description": "User management", "status": "Verified", "evidence": ["admin users list"]},
+    {"ref": "5.5", "description": "Trip inspection", "status": "Verified", "evidence": ["admin trips list"]},
+    {"ref": "6", "description": "Monitoring and cost tracking", "status": "Verified", "evidence": ["overview LLM/Places estimates"]},
+    {"ref": "7", "description": "Admin audit logging", "status": "Implemented but Unverified", "evidence": ["admin_audit_log writes"]},
+    {"ref": "8", "description": "Runtime LLM integration", "status": "Verified", "evidence": ["/api/config openai gpt-4o-mini"]},
+    {"ref": "9", "description": "Cloudflare infrastructure", "status": "Verified", "evidence": ["D1 KV Email Assets domain"]},
+    {"ref": "11", "description": "GitHub deployment", "status": "Implemented but Unverified", "evidence": ["wrangler deploy done; GH builds pending"]},
+    {"ref": "12", "description": "Public URL HTTPS", "status": "Verified", "evidence": ["HTTPS 200"]},
+    {"ref": "13", "description": "Security requirements", "status": "Verified", "evidence": ["PBKDF2 cookies authz rate limits"]},
+    {"ref": "14", "description": "Automated tests", "status": "Verified", "evidence": ["15 unit tests passed"]}
+  ],
+  "checks": [
+    {"name": "unit_tests", "command": "npm test", "environment": "local", "result": "passed", "counts": {"passed": 15, "failed": 0}},
+    {"name": "typecheck_client", "command": "tsc --noEmit", "environment": "local", "result": "passed"},
+    {"name": "typecheck_worker", "command": "tsc --noEmit -p tsconfig.worker.json", "environment": "local", "result": "passed"},
+    {"name": "vite_build", "command": "npm run build", "environment": "local", "result": "passed"},
+    {"name": "prod_health", "command": "GET /api/health", "environment": "production", "result": "passed"},
+    {"name": "prod_config", "command": "GET /api/config", "environment": "production", "result": "passed"},
+    {"name": "prod_guest_itinerary", "command": "POST /api/trips + chat", "environment": "production", "result": "passed"},
+    {"name": "prod_register_migrate", "command": "register + list trips", "environment": "production", "result": "passed"},
+    {"name": "prod_admin_bootstrap_metrics", "command": "admin login/change-password/overview", "environment": "production", "result": "passed"},
+    {"name": "prod_forgot_password", "command": "POST /api/auth/forgot-password", "environment": "production", "result": "passed"},
+    {"name": "github_workers_builds", "command": "GitHub-triggered Workers Build", "environment": "ci", "result": "skipped", "evidence": "pending commit push verification"}
+  ],
+  "integrations": {
+    "llm": {"provider": "openai", "model": "gpt-4o-mini", "status": "Verified"},
+    "googlePlacesMaps": {"status": "Verified", "notes": "server-side Places/geocode; client map uses OSM"},
+    "cloudflareEmail": {"status": "Implemented but Unverified", "binding": "EMAIL", "fromVar": "EMAIL_FROM", "notes": "send attempted; inbox not confirmed"}
+  },
+  "infrastructure": {
+    "resources": [
+      {"type": "worker", "name": "ai-travel-planner-cursor", "action": "updated"},
+      {"type": "d1", "name": "bh-travel-v1-claude-cursor-db", "id": "d529e416-261f-41de-817d-bfc1391b0310", "action": "created"},
+      {"type": "kv", "name": "bh-travel-v1-claude-cursor-ratelimit", "id": "90fd7e4420114d1e9f81548b296821df", "action": "created"},
+      {"type": "custom_domain", "name": "ai-travel-planner-v1-cursor.thebuildhypothesis.com", "action": "attached"},
+      {"type": "send_email_binding", "name": "EMAIL", "action": "configured"}
+    ],
+    "migrations": {"appliedRemote": ["0001_initial.sql"], "status": "applied"}
+  },
+  "issues": [
+    {"severity": "medium", "title": "Intermittent missing itinerary-json", "impact": "Some chat turns do not update structured itinerary", "followUp": "Stronger structured output / tool calling"},
+    {"severity": "medium", "title": "Email inbox unverified", "impact": "Verification/reset links may not arrive", "followUp": "Confirm delivery to real mailbox"},
+    {"severity": "medium", "title": "GitHub Builds pending", "impact": "Final required deploy path not yet confirmed", "followUp": "Push and verify Workers Build"},
+    {"severity": "low", "title": "Initial deploy cleared remote vars", "impact": "Temporary LLM/email config loss", "followUp": "keep_vars enabled; secrets restored"}
+  ],
+  "costs": {
+    "currency": "USD",
+    "measured": null,
+    "estimated": {
+      "samplePeriod": "last_7_days_utc_after_smoke",
+      "llm": 0.003924,
+      "googlePlaces": 0.074,
+      "combined": 0.077924,
+      "source": "usage_records application estimates pricing 2025-11-v1"
+    },
+    "notes": "Estimates only; not invoices"
+  },
+  "summary": {
+    "statusCounts": {
+      "Verified": 18,
+      "Implemented but Unverified": 4,
+      "Partial": 2,
+      "Failed": 0,
+      "Not Started": 0,
+      "Blocked": 0
+    },
+    "outcome": "Production-usable AI Travel Planner with guest/auth/admin/cost tracking verified via wrangler deploy and API smokes; GitHub Builds verification pending push."
+  }
+}

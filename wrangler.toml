@@ -1,0 +1,42 @@
+name = "ai-travel-planner-cursor"
+main = "src/worker/index.ts"
+compatibility_date = "2025-10-01"
+compatibility_flags = ["nodejs_compat"]
+workers_dev = false
+preview_urls = false
+# Preserve administrator-managed remote vars/secrets not declared locally
+keep_vars = true
+
+[[routes]]
+pattern = "ai-travel-planner-v1-cursor.thebuildhypothesis.com"
+custom_domain = true
+
+[assets]
+directory = "./dist/client"
+binding = "ASSETS"
+not_found_handling = "single-page-application"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "bh-travel-v1-claude-cursor-db"
+database_id = "d529e416-261f-41de-817d-bfc1391b0310"
+migrations_dir = "migrations"
+
+[[kv_namespaces]]
+binding = "RATE_LIMIT"
+id = "90fd7e4420114d1e9f81548b296821df"
+
+[[send_email]]
+name = "EMAIL"
+
+[vars]
+APP_NAME = "AI Travel Planner"
+APP_PUBLIC_URL = "https://ai-travel-planner-v1-cursor.thebuildhypothesis.com"
+# Non-secret runtime config (aligned with administrator-managed values).
+# Secrets OPENAI_API_KEY / GOOGLE_MAPS_API_KEY remain remote-only (keep_vars).
+LLM_PROVIDER = "openai"
+LLM_MODEL = "gpt-4o-mini"
+EMAIL_FROM = "noreply@thebuildhypothesis.com"
+
+[observability]
+enabled = true
