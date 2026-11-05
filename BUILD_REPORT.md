@@ -4,7 +4,7 @@
 
 Delivered a working AI Travel Planner on Cloudflare Workers with guest access, registered accounts, conversational itinerary generation, Leaflet maps, Cloudflare Email integration, separate admin console, and per-request usage/cost tracking.
 
-**Completion status:** Core product and admin flows are implemented and largely production-verified. Automated unit tests pass (15/15). Production HTTPS custom domain is live. GitHub Builds verification was pending at report generation and should be confirmed after push.
+**Completion status:** Core product and admin flows are implemented and production-verified. Automated unit tests pass (15/15). Production HTTPS custom domain is live. GitHub Workers Builds succeeded for commit `052bad1` (build `04749522-f7b6-47ad-bc5e-dcfedd7e32c3`).
 
 **Usable?** Yes — guests can plan trips and generate itineraries; registration/login/migration work; `/admin` enforces bootstrap password change before metrics/user/trip inspection.
 
@@ -37,7 +37,7 @@ Delivered a working AI Travel Planner on Cloudflare Workers with guest access, r
 | 8 LLM integration | Verified | `/api/config` openai / gpt-4o-mini; chat succeeded |
 | 9 Cloudflare infra | Verified | Worker+D1+KV+Email+Assets+custom domain |
 | 10 Secrets discipline | Partial | Accidental var wipe on first deploy; restored; `keep_vars` added |
-| 11 GitHub deployment | Implemented but Unverified | Wrangler deploy verified; GH Builds pending push |
+| 11 GitHub deployment | Verified | Workers Builds success for `052bad1` |
 | 12 Public URL/HTTPS | Verified | `APP_PUBLIC_URL` serves HTTPS 200 |
 | 13 Security basics | Verified | Hashing, cookies, authz, rate limits, admin separation |
 | 14 Automated tests | Verified | 15 unit tests passed locally |
@@ -72,7 +72,7 @@ Delivered a working AI Travel Planner on Cloudflare Workers with guest access, r
 | Register + guest migration | prod | trip ownerType became `user` |
 | Admin bootstrap gate + metrics | prod | 403 until password change; overview costs present |
 | Forgot password enumeration | prod | identical message for known/unknown |
-| GitHub Workers Builds | CI | pending verification after push |
+| GitHub Workers Builds | CI | passed — build `04749522` / commit `052bad1` |
 
 ## 6. Deployment and Infrastructure
 
@@ -81,8 +81,8 @@ Delivered a working AI Travel Planner on Cloudflare Workers with guest access, r
 - **D1:** `bh-travel-v1-claude-cursor-db` — migration `0001_initial` applied
 - **KV:** `bh-travel-v1-claude-cursor-ratelimit`
 - **Email binding:** `EMAIL`
-- **Deploy method used for verification:** `wrangler deploy` (direct); final intent is GitHub Builds after commit/push
-- **Bindings checked via `/api/config` and deploy output**
+- **Deploy method:** GitHub Workers Builds verified (`npm run build` + `npx wrangler deploy`); earlier direct `wrangler deploy` used for troubleshooting
+- **Bindings checked via `/api/config` after CI deploy** (LLM/maps/email still configured; secrets retained)
 
 ## 7. Integrations and Configuration
 
@@ -117,9 +117,8 @@ These are **application estimates** from `src/shared/pricing.ts` (`2025-11-v1`),
 
 1. **Intermittent missing itinerary JSON** — severity medium; some chat turns don’t update structured plan; workaround: ask model to “include itinerary-json”.
 2. **Email inbox unverified** — severity medium; API attempts send; confirm mail delivery externally.
-3. **GitHub Builds not yet confirmed** — severity medium until push verification.
-4. **Places deep UX** — severity low; enrichment used during chat, limited standalone research UI.
-5. **Admin secondary account workflows** — implemented; lightly tested.
+3. **Places deep UX** — severity low; enrichment used during chat, limited standalone research UI.
+4. **Admin secondary account workflows** — implemented; lightly tested.
 
 ## 11. Agent Execution Summary
 
@@ -144,4 +143,4 @@ These are **application estimates** from `src/shared/pricing.ts` (`2025-11-v1`),
 
 **Ready:** End-to-end guest planning, auth/migration, admin monitoring, Cloudflare hosting.
 
-**Next:** Confirm GitHub Builds deploy of this commit; confirm verification/reset emails in inbox; harden itinerary extraction (tool/function calling) if JSON compliance remains flaky.
+**Next:** Confirm verification/reset emails in a real inbox; harden itinerary extraction (tool/function calling) if JSON compliance remains flaky.

@@ -2,27 +2,28 @@
   "schemaVersion": "1",
   "specVersion": "1.7",
   "project": "ai-travel-planner-cursor",
-  "generatedAt": "2026-11-05T19:20:00.000Z",
+  "generatedAt": "2026-11-05T19:25:30.000Z",
   "execution": {
     "startedAt": "2026-11-05T19:01:00.000Z",
-    "endedAt": null,
-    "elapsedSeconds": null,
+    "endedAt": "2026-11-05T19:25:30.000Z",
+    "elapsedSeconds": 1470,
     "eightHourLimitSeconds": 28800,
-    "completionReason": "implementation_and_production_smoke_complete_github_builds_pending",
+    "completionReason": "implementation_complete_github_builds_verified",
     "humanInterventions": []
   },
   "repository": {
     "branch": "main",
-    "commitSha": "fd15b5f1ce4e897a46c6d33f8e13305520d42107"
+    "commitSha": "052bad156776d7064ddb31e435b50bf701416540"
   },
   "deployment": {
-    "status": "deployed_via_wrangler_verified",
+    "status": "verified",
     "publicUrl": "https://ai-travel-planner-v1-cursor.thebuildhypothesis.com",
-    "githubBuildsVerification": "failed_then_fixing",
-    "githubBuildsFailure": "npm ERESOLVE peer dependency on first push; fixed with workers-types v5 + .npmrc",
-    "deployedCommitSha": null,
+    "githubBuildsVerification": "passed",
+    "githubBuildId": "04749522-f7b6-47ad-bc5e-dcfedd7e32c3",
+    "githubBuildCommitSha": "052bad156776d7064ddb31e435b50bf701416540",
+    "deployedCommitSha": "052bad156776d7064ddb31e435b50bf701416540",
     "workerName": "ai-travel-planner-cursor",
-    "wranglerVersionIdObserved": "26b50c25-c52f-4f8e-8f2b-8bb8702806ad"
+    "notes": "Earlier pushes failed until build_command set to npm run build and peer deps fixed."
   },
   "requirements": [
     {"ref": "2.1", "description": "Conversational AI", "status": "Verified", "evidence": ["prod chat Tokyo itinerary"]},
@@ -45,7 +46,7 @@
     {"ref": "7", "description": "Admin audit logging", "status": "Implemented but Unverified", "evidence": ["admin_audit_log writes"]},
     {"ref": "8", "description": "Runtime LLM integration", "status": "Verified", "evidence": ["/api/config openai gpt-4o-mini"]},
     {"ref": "9", "description": "Cloudflare infrastructure", "status": "Verified", "evidence": ["D1 KV Email Assets domain"]},
-    {"ref": "11", "description": "GitHub deployment", "status": "Implemented but Unverified", "evidence": ["wrangler deploy done; GH builds pending"]},
+    {"ref": "11", "description": "GitHub deployment", "status": "Verified", "evidence": ["Workers Builds success 04749522 for 052bad1"]},
     {"ref": "12", "description": "Public URL HTTPS", "status": "Verified", "evidence": ["HTTPS 200"]},
     {"ref": "13", "description": "Security requirements", "status": "Verified", "evidence": ["PBKDF2 cookies authz rate limits"]},
     {"ref": "14", "description": "Automated tests", "status": "Verified", "evidence": ["15 unit tests passed"]}
@@ -61,7 +62,7 @@
     {"name": "prod_register_migrate", "command": "register + list trips", "environment": "production", "result": "passed"},
     {"name": "prod_admin_bootstrap_metrics", "command": "admin login/change-password/overview", "environment": "production", "result": "passed"},
     {"name": "prod_forgot_password", "command": "POST /api/auth/forgot-password", "environment": "production", "result": "passed"},
-    {"name": "github_workers_builds", "command": "GitHub-triggered Workers Build", "environment": "ci", "result": "skipped", "evidence": "pending commit push verification"}
+    {"name": "github_workers_builds", "command": "Workers Builds on push main", "environment": "ci", "result": "passed", "evidence": "build 04749522-f7b6-47ad-bc5e-dcfedd7e32c3 commit 052bad1"}
   ],
   "integrations": {
     "llm": {"provider": "openai", "model": "gpt-4o-mini", "status": "Verified"},
@@ -81,7 +82,6 @@
   "issues": [
     {"severity": "medium", "title": "Intermittent missing itinerary-json", "impact": "Some chat turns do not update structured itinerary", "followUp": "Stronger structured output / tool calling"},
     {"severity": "medium", "title": "Email inbox unverified", "impact": "Verification/reset links may not arrive", "followUp": "Confirm delivery to real mailbox"},
-    {"severity": "medium", "title": "GitHub Builds pending", "impact": "Final required deploy path not yet confirmed", "followUp": "Push and verify Workers Build"},
     {"severity": "low", "title": "Initial deploy cleared remote vars", "impact": "Temporary LLM/email config loss", "followUp": "keep_vars enabled; secrets restored"}
   ],
   "costs": {
@@ -98,13 +98,13 @@
   },
   "summary": {
     "statusCounts": {
-      "Verified": 18,
-      "Implemented but Unverified": 4,
+      "Verified": 19,
+      "Implemented but Unverified": 3,
       "Partial": 2,
       "Failed": 0,
       "Not Started": 0,
       "Blocked": 0
     },
-    "outcome": "Production-usable AI Travel Planner with guest/auth/admin/cost tracking verified via wrangler deploy and API smokes; GitHub Builds verification pending push."
+    "outcome": "Production-usable AI Travel Planner verified on custom domain with GitHub Workers Builds success for commit 052bad1."
   }
 }

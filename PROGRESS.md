@@ -33,8 +33,8 @@
 - [x] Unit tests (15 passing)
 - [x] Wrangler deploy + custom domain + HTTPS
 - [x] Production smoke: guest trip, itinerary gen, register, migration, admin bootstrap gate, metrics, forgot-password
-- [ ] GitHub Builds verification
-- [ ] BUILD_REPORT artifacts committed
+- [x] GitHub Builds verification (passed build 04749522 / commit 052bad1)
+- [x] BUILD_REPORT artifacts committed
 
 ## Blockers / notes
 - First wrangler deploy without `keep_vars` briefly cleared remote plaintext vars; restored `LLM_*`, `EMAIL_FROM` as vars and moved API keys to secrets; added `keep_vars = true`.
