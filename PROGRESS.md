@@ -52,3 +52,6 @@
 - Guest→user trip migration verified
 - Admin login + must_change_password gate + metrics verified
 - Password reset request returns enumeration-safe message
+
+## CI fix
+- Set Workers Builds `build_command` to `npm run build` (was empty; deploy alone lacked dist/client).
