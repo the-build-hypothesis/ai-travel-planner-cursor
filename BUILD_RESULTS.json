@@ -13,12 +13,13 @@
   },
   "repository": {
     "branch": "main",
-    "commitSha": null
+    "commitSha": "fd15b5f1ce4e897a46c6d33f8e13305520d42107"
   },
   "deployment": {
     "status": "deployed_via_wrangler_verified",
     "publicUrl": "https://ai-travel-planner-v1-cursor.thebuildhypothesis.com",
-    "githubBuildsVerification": "pending_push",
+    "githubBuildsVerification": "failed_then_fixing",
+    "githubBuildsFailure": "npm ERESOLVE peer dependency on first push; fixed with workers-types v5 + .npmrc",
     "deployedCommitSha": null,
     "workerName": "ai-travel-planner-cursor",
     "wranglerVersionIdObserved": "26b50c25-c52f-4f8e-8f2b-8bb8702806ad"

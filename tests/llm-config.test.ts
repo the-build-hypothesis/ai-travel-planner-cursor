@@ -3,7 +3,7 @@ import { LlmError } from "../src/worker/llm/types";
 
 describe("LLM provider selection contract", () => {
   it("rejects unsupported providers without silent fallback", () => {
-    const provider = "anthropic";
+    const provider: string = "anthropic";
     const supported = provider === "openai";
     expect(supported).toBe(false);
     const err = new LlmError(

@@ -9,6 +9,8 @@
     "build": "vite build && node scripts/write-build-info.mjs",
     "preview": "vite preview",
     "deploy": "npm run build && wrangler deploy",
+    "cf:build": "npm run build",
+    "cf:deploy": "wrangler deploy",
     "db:migrate:local": "wrangler d1 migrations apply bh-travel-v1-claude-cursor-db --local",
     "db:migrate:remote": "wrangler d1 migrations apply bh-travel-v1-claude-cursor-db --remote",
     "test": "vitest run",
@@ -26,7 +28,7 @@
     "zod": "^4.1.12"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20251011.0",
+    "@cloudflare/workers-types": "^5.20261104.1",
     "@types/leaflet": "^1.9.21",
     "@types/node": "^22.18.0",
     "@types/react": "^19.2.2",
